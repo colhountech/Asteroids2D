@@ -1,0 +1,118 @@
+<body onload="init();">
+<div id="content">
+	<canvas id="gameCanvas" width="960" height="400"	style="background:navy;"></canvas>
+</div>
+<ul>
+	<li>Use Left and Right Arrow Keys to Rotate the Ship</li>
+	<li>Use Up Arrow Key for Thrust</li>
+	<li>Reload the Page to Restart</li>
+</ul>
+
+<script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+<script type="text/javascript" src="Ship.js"></script>
+
+<script>
+
+	var canvas;			//Main canvas
+	var stage;			//Main display stage
+	var ship;			//the actual ship
+
+	var TURN_FACTOR = 7;		//how far the ship turns per frame
+	var KEYCODE_UP = 38;		//useful keycode
+	var KEYCODE_LEFT = 37;		//useful keycode
+	var KEYCODE_RIGHT = 39;		//useful keycode
+
+	var lfHeld;				//is the user holding a turn left command
+	var rtHeld;				//is the user holding a turn right command
+	var fwdHeld;			//is the user holding a forward command
+
+
+	//register key functions
+	document.onkeydown = handleKeyDown;
+	document.onkeyup = handleKeyUp;
+
+	function init() {
+
+		canvas = document.getElementById("gameCanvas");
+		stage = new createjs.Stage(canvas);
+
+		restart();
+	}
+
+	function restart() {
+		//hide anything on stage 
+		stage.removeAllChildren();
+
+		//create the player
+		ship = new Ship();
+		ship.x = canvas.width / 2;
+		ship.y = canvas.height / 2;
+
+		//ensure stage is blank and add the ship
+		stage.clear();
+		stage.addChild(ship);
+
+		//reset key presses
+		lfHeld = rtHeld = fwdHeld = dnHeld = false;
+
+		//start game timer
+		if (!createjs.Ticker.hasEventListener("tick")) {
+			createjs.Ticker.addEventListener("tick", tick);
+		}
+	}
+
+	function tick(event) {
+		
+		//handle turning
+		if (lfHeld) {
+			ship.rotation -= TURN_FACTOR;
+		} else if ( rtHeld) {
+			ship.rotation += TURN_FACTOR;
+		}
+
+		//handle thrust
+		if (fwdHeld) {
+			ship.accelerate();
+		}
+
+		//call sub ticks
+		ship.tick(event);
+		stage.update(event);
+	}
+
+	function handleKeyDown(e) {
+		//cross browser issues exist
+		if (!e) {
+			var e = window.event;
+		}
+		switch (e.keyCode) {
+			case KEYCODE_LEFT:
+				lfHeld = true;
+				return false;
+			case KEYCODE_RIGHT:
+				rtHeld = true;
+				return false;
+			case KEYCODE_UP:
+				fwdHeld = true;
+				return false;
+		}
+	}
+
+	function handleKeyUp(e) {
+		//cross browser issues exist
+		if (!e) {
+			var e = window.event;
+		}
+		switch (e.keyCode) {
+			case KEYCODE_LEFT:
+				lfHeld = false;
+				break;
+			case KEYCODE_RIGHT:
+				rtHeld = false;
+				break;
+			case KEYCODE_UP:
+				fwdHeld = false;
+				break;
+		}
+	}	
+</script></body></html>
