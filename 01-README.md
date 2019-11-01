@@ -143,6 +143,7 @@ Here is how to setup the game loop:
 		}
 ```
 
-That's everything. Now go back a read through the code and see if everyting makes sense, and we are ready to start addding back some cool stuff to build our our game.
+That's everything. Now go back a read through the code and see if
+everyting makes sense, and we are ready to start addding back some cool stuff to build out our game.
 
 
