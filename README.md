@@ -50,6 +50,6 @@ If you come across this page, and like what you see, please let me know, Feedbac
 # Let’s begin…
 Start by Cloning the repo below and run the original Game from EasleJS. See what you think. It’s pretty awesome. You can find it in the `Game` folder.
 
-Next Look at 01-Game.html, and read 02-README.md.
+Next Look at [01-Game.html](https://www.colhountech.com/Asteroids2D/01-Game.html), and read [01-README.md](01-README.md)
 
 This will evolve and change as I learn more…

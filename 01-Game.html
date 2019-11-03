@@ -1,6 +1,6 @@
 <body onload="init();">
 <div id="content">
-	<canvas id="gameCanvas" width="960" height="400"	style="background:navy;"></canvas>
+	<canvas id="gameCanvas" width="960" height="400"	style="background:black;"></canvas>
 </div>
 <ul>
 	<li>Use Left and Right Arrow Keys to Rotate the Ship</li>
@@ -22,9 +22,9 @@
 	var KEYCODE_LEFT = 37;		//useful keycode
 	var KEYCODE_RIGHT = 39;		//useful keycode
 
-	var lfHeld;				//is the user holding a turn left command
-	var rtHeld;				//is the user holding a turn right command
-	var fwdHeld;			//is the user holding a forward command
+	var cmdLeft;				//is the user holding a turn left command
+	var cmdRight;				//is the user holding a turn right command
+	var cmdFwd;			//is the user holding a forward command
 
 
 	//register key functions
@@ -53,7 +53,7 @@
 		stage.addChild(ship);
 
 		//reset key presses
-		lfHeld = rtHeld = fwdHeld = dnHeld = false;
+		cmdLeft = cmdRight = cmdFwd =  false;
 
 		//start game timer
 		if (!createjs.Ticker.hasEventListener("tick")) {
@@ -64,14 +64,13 @@
 	function tick(event) {
 		
 		//handle turning
-		if (lfHeld) {
+		if ( cmdLeft ) {
 			ship.rotation -= TURN_FACTOR;
-		} else if ( rtHeld) {
+		} else if ( cmdRight ) {
 			ship.rotation += TURN_FACTOR;
 		}
-
 		//handle thrust
-		if (fwdHeld) {
+		if (cmdFwd) {
 			ship.accelerate();
 		}
 
@@ -87,13 +86,13 @@
 		}
 		switch (e.keyCode) {
 			case KEYCODE_LEFT:
-				lfHeld = true;
+				cmdLeft = true;
 				return false;
 			case KEYCODE_RIGHT:
-				rtHeld = true;
+				cmdRight = true;
 				return false;
 			case KEYCODE_UP:
-				fwdHeld = true;
+				cmdFwd = true;
 				return false;
 		}
 	}
@@ -105,13 +104,13 @@
 		}
 		switch (e.keyCode) {
 			case KEYCODE_LEFT:
-				lfHeld = false;
+				cmdLeft = false;
 				break;
 			case KEYCODE_RIGHT:
-				rtHeld = false;
+				cmdRight = false;
 				break;
 			case KEYCODE_UP:
-				fwdHeld = false;
+				cmdFwd = false;
 				break;
 		}
 	}	

@@ -5,20 +5,23 @@ Open  [01-Game.html](01-Game.html) in your browser, and the game should load.
 To begin with, this is the simplest game we can build.
 
 Pay attention to the following:
+```html
+	<body onload="init();">
+```
 
-When the page is loaded, `init()` is called. That's  the code we will look at next.
+When the page is loaded, `init()` is called. That's the next block of code we will look at.
 
 `gameCanvas` is the Canvas where our Game is drawn. In our game it's the black background. This tells us how big we want our display, usually this would be the size of the full screen for a game. You can see here it's `black`. Try changing it to `navy`.
 
-In our Asteroids Game, we have 3 important things: 
+In our Asteroids Game, we have 3 important "things"  or "objects" (I much prefer "things" than "objects", but aparently "objects" won, and that'w what most people use to call "things" in code). So, the 3 important objects are: 
 
-* A `canvas` which we draw on
-* A `stage` is the thing that we use to draw on that canvas
-* A `ship` which we will move around the stage on this canvas. 
+* A `canvas` which is what we can see on the screen.
+* A `stage` is where everything goes before it's drawn on that canvas. 
+* A `ship` which we will add to the stage and move around the stage so we can see it on this canvas. 
 
 All easy so far? Good.
 
-So, we are using a toolkit called  `EaselJs` and with this we will add the `ship` to the `stage` and move it around the `stage` and then EaselJS will draw this on our `canvas` display for us, so we don't have to get caught up on the yucky code  :)
+So, we are using a toolkit called  `EaselJs` and with this we will add the `ship` to the `stage` and move it around the `stage` and then EaselJS will draw this on our `canvas` display for us, so we don't have to get caught up on yucky code  :)
 
 
 You can see where we define these 3 things below:
@@ -43,12 +46,14 @@ Next we need to define what commands are going to move our ship. Let's use the a
 	var KEYCODE_RIGHT = 39;		//useful keycode
 ```
 
-Computers can read the Key Codes very quickly about 1/1000th of a second, so we also need to check if the keys are being held down or we might miss it.  We only will move the ship if the key is being held down. We have 3 more labels for this:
+Computers can read the Key Codes very quickly in a fraction of a second, so we also need to check if the keys are being held down or being released.  We only will move the ship if the key is being held down. when a key is pressed we will activate a command and when a key is released, we will deactivate a command. 
+
+We have 3 commands that we will map to keys:
 
 ```js
-	var lfHeld;				//is the user holding a turn left command
-	var rtHeld;				//is the user holding a turn right command
-	var fwdHeld;			//is the user holding a forward command
+	var cmdLeft;				//is the user holding a turn left command
+	var cmdRight;				//is the user holding a turn right command
+	var cmdForward;			    //is the user holding a forward command
 ```
 
 The next 2 lines needs a little bit of explaination. Have you ever put on some toast, and asked Alexa to set a timer for you to remind you to check that your toast is done. You might say:
@@ -147,3 +152,24 @@ That's everything. Now go back a read through the code and see if
 everyting makes sense, and we are ready to start addding back some cool stuff to build out our game.
 
 
+## tick()
+
+`tick()` is our Game Loop. This is where all the magic happens in every Game like this. Our game is very simple right now, so we can see 2 things we need to check and 2 other bits of housework we need to look after.
+
+ we need to rotate the ship left or right, 
+
+//handle turning
+		if (lfHeld) {
+			ship.rotation -= TURN_FACTOR;
+		} else if ( rtHeld) {
+			ship.rotation += TURN_FACTOR;
+		}
+		//handle thrust
+		if (fwdHeld) {
+			ship.accelerate();
+		}
+		//call sub ticks
+		ship.tick(event);
+		
+		// update stage
+		stage.update(event);
