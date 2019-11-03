@@ -17,7 +17,6 @@
 	var stage;			//Main display stage
 	var ship;			//the actual ship
 
-	var TURN_FACTOR = 7;		//how far the ship turns per frame
 	var KEYCODE_UP = 38;		//useful keycode
 	var KEYCODE_LEFT = 37;		//useful keycode
 	var KEYCODE_RIGHT = 39;		//useful keycode
@@ -65,10 +64,10 @@
 		
 		//handle turning
 		if ( cmdLeft ) {
-			ship.rotation -= TURN_FACTOR;
+			ship.rotateLeft();
 		} else if ( cmdRight ) {
-			ship.rotation += TURN_FACTOR;
-		}
+			ship.rotateRight();
+		} 
 		//handle thrust
 		if (cmdFwd) {
 			ship.accelerate();

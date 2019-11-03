@@ -18,7 +18,8 @@
 	var p = createjs.extend(Ship, createjs.Container);
 
 // public properties:
-	Ship.TOGGLE = 60;
+	Ship.TURN_FACTOR = 7; 	// how far the ship turns per frame
+	Ship.TOGGLE = 60;		
 	Ship.MAX_THRUST = 2; // was 2
 	Ship.MAX_VELOCITY = 5; // was 5
 
@@ -95,6 +96,13 @@
 			this.shipFlame.alpha = 0;
 			this.thrust = 0;
 		}
+	}
+	p.rotateRight = function () {
+		this.rotation +=  Ship.TURN_FACTOR;
+	}
+
+	p.rotateLeft = function () {
+		this.rotation -=  Ship.TURN_FACTOR;
 	}
 
 	p.accelerate = function () {
