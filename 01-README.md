@@ -75,7 +75,7 @@ That what the next 2 lines are about:
 * The first line tell us to run the `handleKeyDown` code whenever a key is being pressed down.
 * The  next line tell us to run the `handleKeyUp` code whenever a key is being lifted up.
 
-So, in our handler, all we need to do is check to see if one of our special command keys is being pressed: left arrow key, right arrow key and up arrow key. If we wanted to add more commands later (like a fire button), we would tell one of our handlers to check for this command too.
+So, in our handler, all we need to do is check to see if one of our special keys are being pressed: left arrow key, right arrow key and up arrow key, then map this to a command: turn left, turn right, move forward. If we wanted to add more commands later (like a fire button) and map them to keys, we would add this our handlers later on.
 
 OK. That' pretty much it. Not much there. The rest of the code are blocks of code wrapped that we can use when we need. They are called `function`s and they all look like this:
 
@@ -91,7 +91,7 @@ OK. Let's look at the rest of the functions in our Game.
 
 ### init()
 
-init always runs first when you load the webpage. so far it doesn't do much.
+The `init()` function always runs first when you load the webpage. (actually this is another handler and it's attached to the handler that runs every time a webpage loads). so far our init() function doesn't do much.
 
 ```js
     canvas = document.getElementById("gameCanvas");
@@ -102,11 +102,11 @@ Pretty simple really? Just find the `canvas` to draw on. Create a `stage` and th
 
 ### restart()
 
-`restart()` is just a block of code that we will run every time we restart the game. This will be useful later when our game ends, and we don't need to reload the webpage to restart the game.
+the `restart()` function is just a block of code that we will run every time we restart the game. This will be useful later when our game ends, and we don't need to reload the webpage to restart the game.
 
-restart() only does 4 simple things at the start of our game: 
+`restart()` only does 4 simple things at the start of our game: 
 
-It clears the Stage of everything ready for a new game. In the code world, we usually call a thing that looks after other things as a `parent` and the things it looks after are `children`. In our game the only child will be a single ship, but later we will have other asteroids too, so all of these together are the `children` on the stage. I guess you could think of the stage really like a parent acting as a stage manager and it manages all the things on the stage such as ships and asteroids - it's children.
+It clears the `stage` of everything ready for a new game. In the code world, we usually call a thing that looks after other things as a `parent` and the things it looks after are `children`. In our game the only child will be a single ship, but later we will have other asteroids too, so all of these together are the `children` on the stage. I guess you could think of the stage really like a parent acting as a stage manager and it manages all the things on the stage such as ships and asteroids - it's children.
 
 So, every time we start the game we need to remove all the children from the stage.
 
@@ -115,7 +115,7 @@ So, every time we start the game we need to remove all the children from the sta
 	stage.removeAllChildren();
 ```
 
-Next, we add the Ship to the stage. We position it in the middle of the stage with is half the width and half the height of the canvas. 
+Next, we add the Ship to the stage. We place it in the middle of the stage, which is half the width and half the height of the canvas. 
 
 `x` is how far along the left to right direction, and `y` is how far down the up to down direction, starting in the top left corner as `x = 0` and  `y = 0`.
 
@@ -129,17 +129,20 @@ Next, we add the Ship to the stage. We position it in the middle of the stage wi
 		stage.clear();
 		stage.addChild(ship);
 ```
-We also reset all the key presses. It's good practice to reset all our labels at the start of our game.
+We also reset all the key commands. It's good practice to reset all our commands at the start of our game.
 
 ```js
 		//reset key presses
-		lfHeld = rtHeld = fwdHeld = dnHeld = false;
+		cmdLeft = cmdRight = cmdFwd = false;
 ```
-And Finally, we start the Game Timer. this is THE most important part of any realistic game. Sonetimes it's called the Game Loop and it's what gives us the `fps` number when we play games. for example, if a game has an `fps` of 100, that means it's running the Game Loop 100 times every second. 100 frames per second = 100 fps. You have probably heard about fps if you are a gamer. 
 
-Every time the game loops code is called, it makes tiny change to our ship. Normally, we want our game loop to run at 24 times a second. Any faster than that and the human eyes doesn't really notice, unless if you have a very fast moving game like Fortnite or Black Ops. In these games, the higher the fps, the smoother the game looks when you move around. For our game we will let `EaselJs` look after the frame rate for us, which normally is 30 frames per second.
+#### start the game timer
 
-Here is how to setup the game loop:
+And finally, we start the `tick()` game timer.  This is THE most important part of any realistic game. Sonetimes it's called the Game Loop and it's what gives us the `fps` number when we play games. For example, if a game has an `fps` of 100, that means it's running the Game Loop 100 times every second. 100 frames per second = 100 fps. You have probably heard about fps if you are a gamer. 
+
+Every time the game loop `tick()` functaion is called, it updates tiny change to our ship such as moving it. Normally, we want our game loop to run at 24 times a second. Any faster than that and the human eyes doesn't really notice, unless if you have a very fast moving game like Fortnite or Black Ops. In these games, the higher the fps, the smoother the game looks when you move around. For our game we will let `EaselJs` look after the frame rate for us, which normally is 30 frames per second.
+
+Here is how to setup the game loop `tick()` function:
 
 ```js
 		//start game timer
@@ -148,17 +151,16 @@ Here is how to setup the game loop:
 		}
 ```
 
-That's everything. Now go back a read through the code and see if
-everyting makes sense, and we are ready to start addding back some cool stuff to build out our game.
+We check the game loop `tick()` function is registered on the Ticker event, and if it's not, then it is added.
 
+Now, lets looks at what happens in the the `tick()` function:
 
 ## tick()
 
-`tick()` is our Game Loop. This is where all the magic happens in every Game like this. Our game is very simple right now, so we can see 2 things we need to check and 2 other bits of housework we need to look after.
+`tick()` is our Game Loop. This is where all the magic happens in every game like this. Our game is very simple right now.  All we do is We need to check if a key has been pressed or released, and if so we activate or deactivate a command. We then update the `tick()` on each sub child (in this case, just the ship) and then as stage to display the updates on the canvas.
 
- we need to rotate the ship left or right, 
-
-//handle turning
+```js
+		//handle turning
 		if (lfHeld) {
 			ship.rotation -= TURN_FACTOR;
 		} else if ( rtHeld) {
@@ -173,3 +175,8 @@ everyting makes sense, and we are ready to start addding back some cool stuff to
 		
 		// update stage
 		stage.update(event);
+
+```
+
+That's everything. Now go back a read through the code and see if
+everyting makes sense, and we are ready to start addding back some cool stuff to build out our game.
