@@ -215,7 +215,7 @@ All that is different, is that we check the value of angle and `while` it is les
         // done drawing rock
 ```
 
-Here is your challenge, if you are up to it. Move your ship inside the asteroid, as see if you can keep it spinning inside the asteroid, without hitting the edges. See you on the next lesson.
+Here is your challenge, if you are up for it. Update your code from 01 to 02 and then 03 and then load the game and move your ship inside the asteroid, and see if you can keep it spinning inside the asteroid without hitting the edges. See you on the next lesson.
 
 
 
