@@ -1,6 +1,6 @@
 # adding rocks
 
-In the lesson, we are going to learn some very important concetps abouot gaming. We are going to learn about
+In the lesson, You are going to learn some very important concepts about gaming. We are going to learn about
 * Drawing circle, radians, and the magic number `PI`
 * Random numbers
 * While loops
@@ -108,7 +108,7 @@ Finally, we want to update the stage and add this rock to the stage at the end o
 
 When you save and reload the page now, it should looke like like this ![](images/blue-rock.png)
 
-#What's happening here..
+### What's happening here..
 
 OK. Let's break this down now. 
 
@@ -195,9 +195,9 @@ Finally, we add the asteroid to the stage, so that it can be managed by the stag
 		stage.addChild(rock);
 ```
 
-So. There is a very important point I want to make next. That's a computer sciecen idea called  the DRY principle. DRY stand for Do not Repeat Yourself. If you look at this block of code, you will notie that almost the same code is copied and pasted 6 times. This is bad, because firstly, it makes the code longer and secondly it make it easy to make mistakes, especially if I have to change this code, I will need to change it in 6 places. Not good. Instead we want to shorten this code down into a single function, and that's what we are going to do in the next section with a `while loop`, and start to make the code much, much better. See you then.
+So. There is a very important point I want to make next. That's a computer sciecen idea called  the *DRY* principle. *DRY* stands for __Do not Repeat Yourself__. If you look at this block of code, you will notice that almost the same code is copied and pasted 6 times. This is bad, because firstly, it makes the code longer and secondly it make it easy to make mistakes, especially if I have to change this code, I will need to change it in 6 places. Not good. Instead we want to shorten this code down into a single function, and that's what we are going to do in the next section with a `while loop`, and start to make the code much, much better. See you then.
 
-Look at (03-Game.html)[03-Game.html], and you will see the same code, but this time I have remove the code for drawing the spokes and the circle, and we are just left with the outline of the asteroid. I also have chnage the code to use a `while` loop, so it has made the code much shorter and easier to read. here is the new code:
+Look at [03-Game.html](03-Game.html), and you will see the same code, but this time I have remove the code for drawing the spokes and the circle, and we are just left with the outline of the asteroid. I also have chnage the code to use a `while` loop, so it has made the code much shorter and easier to read. here is the new code:
 
 All that is different, is that we check the value of angle and `while` it is less than 6, we add 0.25 and a bit and draw a line from the last spoke to the next spole. Simple.
 
