@@ -197,9 +197,9 @@ Finally, we add the asteroid to the stage, so that it can be managed by the stag
 
 So. There is a very important ideas I want to share. It's an idea called the __DRY__ principle. __DRY__ stands for __Do not Repeat Yourself__. If you look at this block of code, you will notice that almost the same code is copied and pasted 6 times. This is bad, because firstly, it makes the code longer and secondly it make it easy to make mistakes, especially if I have to change this code, I will need to change it in 6 places. Not good. Instead we want to shorten this code down into a single function, and that's what we are going to do in the next section with a `while loop`, and start to make the code much, much better. 
 
-Look at [03-Game.html](03-Game.html), and you will see the same code, but this time I have remove the code for drawing the spokes and the circle, and we are just left with the outline of the asteroid. I also have chnage the code to use a `while` loop, so it has made the code much shorter and easier to read. here is the new code:
+Look at [03-Game.html](03-Game.html), and you will see the same code, but this time I have remove the code for drawing the spokes and the circle, and we are just left with the outline of the asteroid. I also have changed the code to use a `while` loop, so it has made the code much shorter and easier to read. Here is the new code:
 
-All that is different, is that we check the value of angle and `while` it is less than 6, we add 0.25 and a bit and draw a line from the last spoke to the next spole. Simple.
+All that is different, is that we check the value of angle and `while` it is less than 6, we add 0.25 and a bit and draw a line from the last spoke to the next spoke. Simple.
 
 ```js
 
