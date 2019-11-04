@@ -179,14 +179,14 @@ and then we finish drawing the asteroid by closing the path.
 
 ```js
         // draw the last line segment back to the start point.
-		rock.graphics.closePath(); 
+        rock.graphics.closePath(); 
 ```
 
 Next, we move the asteroid to a place on the stage that we can all see:
 
 ```js
-    	// rock done. move to where we can see it
-		rock.x = canvas.width / 4;
+        // rock done. move to where we can see it
+        rock.x = canvas.width / 4;
         rock.y = canvas.height / 2; 
 ```
 Finally, we add the asteroid to the stage, so that it can be managed by the stage and displayed on the canvas.
