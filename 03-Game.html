@@ -12,12 +12,11 @@
 <script type="text/javascript" src="Ship.js"></script>
 
 <script>
-	"use strict"
-	
+
 	var canvas;			//Main canvas
 	var stage;			//Main display stage
 	var ship;			//the actual ship
-	var rock;           //our first rock
+	var rock;
 
 	var KEYCODE_UP = 38;		//useful keycode
 	var KEYCODE_LEFT = 37;		//useful keycode
@@ -44,82 +43,32 @@
 		//hide anything on stage 
 		stage.removeAllChildren();
 
-		// create a rock
-
-		rock = new createjs.Shape();
-		
-		var size = 40;
-		var radius = 0;
-		var angle = 0;
-
-		rock.graphics.clear();
-		
-		// show guide circle
-		rock.graphics.beginFill("DeepSkyBlue").drawCircle(0,0, size);
-
-		rock.graphics.beginStroke("gray")
-			.drawCircle(0,0, size)
-			.moveTo(0, size); // start at bottom of rock
-
-		// step 1
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-
-		// step 2
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-
-		// step 3
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-
-		// step 4
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-
-		// step 5
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-		
-		// step 6
-		angle += 1.0;
-		radius = size + (size / 2 * Math.random());
-		rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius)
-			.lineTo(0,0) // show wheel spoke
-			.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
-
-		// draw the last line segment back to the start point.
-		rock.graphics.closePath(); 
-
-		// rock done. move to where we can see it
-		rock.x = canvas.width / 4;
-		rock.y = canvas.height / 2; 
-
 		//create the player
 		ship = new Ship();
 		ship.x = canvas.width / 2;
 		ship.y = canvas.height / 2;
+
+		// create a rock
+		let size = 40;
+		let radius = 0;
+		let angle = 0;
+
+		let rock = new createjs.Shape();
+		rock.graphics.clear();
+		rock.graphics.beginStroke("gray");
+		rock.graphics.moveTo(0, size); // start at bottom of the rock
+
+		while ( angle < 6.0 )
+		{
+			angle += .25 + (Math.random() * 100) / 500;
+			radius = size + (size / 2 * Math.random());
+			rock.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
+		}
+		
+		rock.graphics.closePath(); // draw the last line segment back to the start point.
+		rock.x = 4* size;
+		rock.y = 7* size;
+		// done drawing rock
 
 		//ensure stage is blank and add the ship
 		stage.clear();
