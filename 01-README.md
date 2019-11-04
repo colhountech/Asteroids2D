@@ -161,13 +161,13 @@ Now, lets looks at what happens in the the `tick()` function:
 
 ```js
 		//handle turning
-		if (lfHeld) {
-			ship.rotation -= TURN_FACTOR;
-		} else if ( rtHeld) {
-			ship.rotation += TURN_FACTOR;
-		}
+		if ( cmdLeft ) {
+			ship.rotateLeft();
+		} else if ( cmdRight ) {
+			ship.rotateRight();
+		} 
 		//handle thrust
-		if (fwdHeld) {
+		if (cmdFwd) {
 			ship.accelerate();
 		}
 		//call sub ticks
