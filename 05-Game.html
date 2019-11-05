@@ -1,0 +1,152 @@
+<body onload="init();">
+<div id="content">
+	<canvas id="gameCanvas" width="960" height="400"	style="background:black;"></canvas>
+</div>
+<ul>
+	<li>Use Left and Right Arrow Keys to Rotate the Ship</li>
+	<li>Use Up Arrow Key for Thrust</li>
+	<li>Reload the Page to Restart</li>
+</ul>
+
+<script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+<script type="text/javascript" src="Ship.js"></script>
+
+<script>
+
+	var canvas;			//Main canvas
+	var stage;			//Main display stage
+	var ship;			//the actual ship
+	var rock;
+
+	var KEYCODE_UP = 38;		//useful keycode
+	var KEYCODE_LEFT = 37;		//useful keycode
+	var KEYCODE_RIGHT = 39;		//useful keycode
+
+	var cmdLeft;				//is the user holding a turn left command
+	var cmdRight;				//is the user holding a turn right command
+	var cmdFwd;					//is the user holding a forward command
+
+	var cmdRockFwd;
+	var cmdRockLeft;
+	var cmdRockRight;
+
+
+	//register key functions
+	document.onkeydown = handleKeyDown;
+	document.onkeyup = handleKeyUp;
+
+	function init() {
+
+		canvas = document.getElementById("gameCanvas");
+		stage = new createjs.Stage(canvas);
+
+		restart();
+	}
+
+	function Rock() {
+		const size = 40;
+		let radius = 0;
+		let angle = 0;
+
+		this.spin = 1.0;
+
+		this.shape = new createjs.Shape();
+		this.shape.graphics.clear();
+		this.shape.graphics.beginStroke("gray");
+		this.shape.graphics.moveTo(0, size); // start at bottom of the rock
+
+		while ( angle < 6.0 )
+		{
+			angle += .25 + (Math.random() * 100) / 500;
+			radius = size + (size / 2 * Math.random());
+			this.shape.graphics.lineTo(Math.sin(angle) * radius, Math.cos(angle) * radius);
+		}
+
+		this.shape.graphics.closePath(); // draw the last line segment back to the start point.
+
+		this.tick = function (event) {
+			this.shape.rotation += this.spin;
+		}
+	}
+
+	function restart() {
+		//hide anything on stage 
+		stage.removeAllChildren();
+
+		//create the player
+		ship = new Ship();
+		ship.x = canvas.width / 2;
+		ship.y = canvas.height / 2;
+
+		rock = new Rock();
+		rock.shape.x = canvas.width / 4;
+		rock.shape.y = canvas.height / 2;
+
+		//ensure stage is blank and add the ship
+		stage.clear();
+		stage.addChild(ship);
+		stage.addChild(rock.shape);
+
+		//reset key presses
+		cmdLeft = cmdRight = cmdFwd =  false;
+
+		//start game timer
+		if (!createjs.Ticker.hasEventListener("tick")) {
+			createjs.Ticker.addEventListener("tick", tick);
+		}
+	}
+
+	function tick(event) {
+		
+		//handle turning
+		if ( cmdLeft ) {
+			ship.rotateLeft();
+		} else if ( cmdRight ) {
+			ship.rotateRight();
+		} 
+		//handle thrust
+		if (cmdFwd) {
+			ship.accelerate();
+		}
+		//call sub ticks
+		ship.tick(event);
+		rock.tick(event);
+		stage.update(event);
+	}
+
+	function handleKeyDown(e) {
+		//cross browser issues exist
+		if (!e) {
+			var e = window.event;
+		}
+		switch (e.keyCode) {
+			case KEYCODE_LEFT:
+				cmdLeft = true;
+				return false;
+			case KEYCODE_RIGHT:
+				cmdRight = true;
+				return false;
+			case KEYCODE_UP:
+				cmdFwd = true;
+				return false;
+		}
+	}
+
+	function handleKeyUp(e) {
+		//cross browser issues exist
+		if (!e) {
+			var e = window.event;
+		}
+		switch (e.keyCode) {
+			case KEYCODE_LEFT:
+				cmdLeft = false;
+				break;
+			case KEYCODE_RIGHT:
+				cmdRight = false;
+				break;
+			case KEYCODE_UP:
+				cmdFwd = false;
+				break;
+		}
+	}	
+</script></body></html>
