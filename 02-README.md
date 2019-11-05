@@ -40,7 +40,7 @@ Next, we will add a bunch of code to draw one random rock. This might look like 
 		rock.graphics.beginStroke("gray"); 
         rock.graphics.drawCircle(0,0, size);
         
-        / start at bottom of rock
+        // start at bottom of rock
 		rock.graphics.moveTo(0, size); 
 
 		// step 1
